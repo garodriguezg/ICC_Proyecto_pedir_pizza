@@ -115,5 +115,5 @@ for i in range(len(Precios_pizza)):
         precio += precios_bebida[i][1]*cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Sprite')
         precio += precios_bebida[i][2]*cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Inca Kola')
 
-print('El costo por todo sería:', round(precio, 2))
+print('El costo por todo sería:', round(precio, 2), 'soles')
 print('Llame al', Numeros_telefonicos[indice_pizzeria][indice_distrito], 'para efectuar su pedido')
