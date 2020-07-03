@@ -83,7 +83,7 @@ while seguir_pidiendo.lower() == 'si':
 orden_pizzas_bebidas = list(dic_orden.keys())
 orden_cantidad = list(dic_orden.values())
 
-#Con esto se imprime tu pedio
+#Con esto se imprime tu pedido
 print("Su orden sería:")
 for i, j in dic_orden.items():
     print(i, ':', j)
