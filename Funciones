@@ -1,0 +1,6 @@
+#Esta funcion nos da las cantidades de pizzas y bebidas que hay de lo ordenado
+def cantidad_orden(indices, cantidades, producto):
+    for i in range(len(indices)):
+        if indices[i] == producto:
+            return cantidades[i]
+    return 0
