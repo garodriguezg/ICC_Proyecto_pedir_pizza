@@ -4,3 +4,21 @@ def cantidad_orden(indices, cantidades, producto):
         if indices[i] == producto:
             return cantidades[i]
     return 0
+def pedir1(Comida, dic_orden):
+    comida = input('Ingrese que pizza quiere (Americana, Hawaiana, Pepperoni): ')
+    comida = comida.lower()
+    if comida not in Comida:
+        print('Lo sentimos, no contamos con esa pizza')
+    else:
+        cantidad = int(input("Ingrese cuantos desea: "))
+        dic_orden[comida.capitalize()] = cantidad
+        return dic_orden
+def pedir2(Comida, dic_orden):
+    comida = input('Ingrese que bebida quiere (Coca-Cola, Sprite, Inca Kola): ')
+    comida = comida.lower()
+    if comida not in Comida:
+        print('Lo sentimos, no contamos con esa pizza')
+    else:
+        cantidad = int(input("Ingrese cuantos desea: "))
+        dic_orden[comida.capitalize()] = cantidad
+        return dic_orden
