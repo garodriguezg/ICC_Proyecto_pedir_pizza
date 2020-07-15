@@ -1,119 +1,172 @@
-#Estas son todas las lista y matrices que seran utilizadas
-Pizzerias = ['Pizza Hut', 'Dominos Pizza', 'Papa Johns']
-Distritos = ['Surco', 'Miraflores', 'San Isidro', 'La Molina']
-Surco = ['Pizza Hut', 'Dominos Pizza', 'Papa Johns']
-Miraflores = ['Pizza Hut', 'Dominos Pizza', 'Papa Johns']
-San_Isidro = ['Pizza Hut', 'Dominos Pizza', 'Papa Johns']
-La_Molina = ['Pizza Hut', 'Dominos Pizza', 'Papa Johns']
-Numeros_telefonicos = [ ['(01) 5051111', '(01) 5051111', '(01) 5051111', '(01) 74-9497'],
-                        ['(01) 3211100', '(01) 4463777', '(01) 3914700]', '(01) 7155676'],
-                        ['(01) 606-0000', '(01) 606-0000', '(01) 606-0000', '(01) 606-0000'] ]
-Pizzas = ['Americana', 'Hawaiana', 'Pepperoni']
-Bebidas = ['Coca-Cola', 'Sprite', 'Inca Kola']
-Precios_pizza = [ [41.90, 46.90, 41.90],
-                  [39.90, 46.90, 46.90],
-                  [41.90, 48.90, 40.00] ]
+archivo = open('data/Pizzerias', 'r')
+a = archivo.readline()
+Pizzerias = a.split(', ')
+Pizzerias.pop()
+archivo.close()
 
-precios_bebida = [ [5.00, 3.50, 5.00],
-                   [9.90, 3.90, 9.90],
-                   [9.70, 3.70, 9.70] ]
+archivo = open('data/Distritos', 'r')
+b = archivo.readline()
+Distritos = b.split(', ')
+Distritos.pop()
+archivo.close()
 
-dic_orden = {}
-#Aqui pide el distrito en donde vives (Esta valor no tiene mucho uso en la version actual, pero sera importante para la entrega 3)
-distrito = input("Ingrese el Distrito en donde vive (Surco, Miraflores, San Isidro, La Molina): ")
+archivo = open('data/Pizzeria_Distrito', 'r')
+c = archivo.readline()
+Surco = c.split(', ')
+Surco.pop()
+d = archivo.readline()
+Miraflores = d.split(', ')
+Miraflores.pop()
+e = archivo.readline()
+San_Isidro = e.split(', ')
+San_Isidro.pop()
+f = archivo.readline()
+La_Molina = f.split(', ')
+La_Molina.pop()
+archivo.close()
+
+archivo = open('data/Pizzas', 'r')
+g = archivo.readline()
+Pizzas = g.split(', ')
+Pizzas.pop()
+archivo.close()
+
+archivo = open('data/Bebidas', 'r')
+h = archivo.readline()
+Bebidas = h.split(', ')
+Bebidas.pop()
+archivo.close()
+
+archivo = open('data/precios_pizza')
+precios_pizza = []
+for linea in archivo.readlines():
+    i = linea.split(' ')
+    i.pop()
+    precios_pizza.append(i)
+archivo.close()
+
+archivo = open('data/precios_bebida')
+precios_bebida = []
+for linea in archivo.readlines():
+    j = linea.split(' ')
+    j.pop()
+    precios_bebida.append(j)
+archivo.close()
+
+numero_pedido = 1
+def Pedir_Pizza_Lima(Pizzerias, Distritos, Surco, Miraflores, San_Isidro, La_Molina, Pizzas, Bebidas, precios_pizza, precios_bebida, numero_pedido):
+    n_pedido = "pedido " + str(numero_pedido)
+    archivo = open('pedidos/' + str(n_pedido), 'w')
+    dic_orden = {}
+    nombre = input('Ingrese su nombre completo: ')
+    direccion = input("Ingrese la direccion en donde vive (Nombre de la calle, numero, distrio, ciudad): ")
+    lista_direccion = direccion.split(', ')
+    distrito = lista_direccion[2].lower()
+    while len(lista_direccion) != 4:
+        print('Datos incompletos')
+        direccion = input("Ingrese la direccion en donde vive (Nombre de la calle, numero, distrio, ciudad): ")
+        lista_direccion = direccion.split(', ')
+        distrito = lista_direccion[2].lower()
+    while True:
+        if distrito.lower() in Distritos:
+            break
+        else:
+            print('Lo sentimos no contamos con informacion de ese distrito')
+            return False
+    archivo.write('Nombre: ' + nombre + "\n")
+    archivo.write('Direccion: ' + direccion.capitalize() + "\n")
+    #Aqui se elige una pizzeria (Tomando en cuenta el distrito)
+    pizzeria = input('Escoge una pizzeria (Pizza Hut, Dominos Pizza, Papa Johns): ')
+    while True:
+        if distrito.lower() == 'surco':
+            if pizzeria.lower() in Surco:
+                break
+            else:
+                print('Lo sentimos, no existe esa pizzaria en', distrito)
+                pizzeria = input('Escoge otro pizzeria(Pizza Hut, Dominos Pizza, Papa Johns): ')
+        if distrito.lower() == 'miraflores':
+            if pizzeria.lower() in Miraflores:
+                break
+            else:
+                print('Lo sentimos, no existe esa pizzaria en', distrito)
+                pizzeria = input('Escoge otro pizzeria(Pizza Hut, Dominos Pizza, Papa Johns): ')
+        if distrito.lower() == 'san isidro':
+            if pizzeria.lower() in San_Isidro:
+                break
+            else:
+                print('Lo sentimos, no existe esa pizzaria en', distrito)
+                pizzeria = input('Escoge otro pizzeria(Pizza Hut, Dominos Pizza, Papa Johns): ')
+        if distrito.lower() == 'la molina':
+            if pizzeria.lower() in La_Molina:
+                break
+            else:
+                print('Lo sentimos, no existe esa pizzaria en', distrito)
+                pizzeria = input('Escoge otro pizzeria(Pizza Hut, Dominos Pizza, Papa Johns): ')
+
+    print('Ahora empezaremos  a armar su orden')
+    seguir_pidiendo = 'si'
+    #Con este bucle te pide que pizzas quieres y la cantidad de esta, hasta que el usuario ya no quiera ordenar mas (Se guarda en un diccionario)
+    from Funciones import pedir1, pedir2
+    while seguir_pidiendo.lower() == 'si':
+        pedir1(Pizzas, dic_orden)
+        seguir_pidiendo = input('Seguir ordenando?: ')
+    seguir_pidiendo = 'si'
+
+    #Con este bucle te pide que bebida quieres y la cantidad de esta, hasta que el usuario ya no quiera ordenar mas (Se guarda en un diccionario)
+    while seguir_pidiendo.lower() == 'si':
+        pedir2(Bebidas, dic_orden)
+        seguir_pidiendo = input('Seguir ordenando?: ')
+
+    #Con esto separo el diccionario donde esta la orden en dos listas, una con la orden y otra con las cantidades
+    orden_pizzas_bebidas = list(dic_orden.keys())
+    orden_cantidad = list(dic_orden.values())
+
+    #Con esto se imprime tu pedido
+    archivo.write("Orden:\n\n")
+    for i, j in dic_orden.items():
+        archivo.write(str(i) + ': ' + str(j) + '\n')
+
+    # defino variables
+    precio = 0
+    indice_pizzeria = 0
+    indice_distrito = 0
+
+    #Con esto saco el indice del distrito
+    for i in range(len(Distritos)):
+        if Distritos[i] == distrito.lower():
+            indice_distrito = i
+
+    from Funciones import cantidad_orden
+
+    #Con esto saco el indice de la pizzeria
+    for i in range(len(Pizzerias)):
+        if Pizzerias[i] == pizzeria.lower():
+            indice_pizzeria = i
+
+    #Con esto hallo el precio (Multiplico las cantidades por los precios y lo sumo)
+    for i in range(len(precios_pizza)):
+        if i == indice_pizzeria:
+            precio += float(precios_pizza[i][0]) * float(cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Americana'))
+            precio += float(precios_pizza[i][1]) * float(cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Hawaiana'))
+            precio += float(precios_pizza[i][2]) * float(cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Pepperoni'))
+            precio += float(precios_bebida[i][0])* float(cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Coca-cola'))
+            precio += float(precios_bebida[i][1])* float(cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Sprite'))
+            precio += float(precios_bebida[i][2])* float(cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Inca kola'))
+    print('El costo por todo es:', round(precio, 2), 'soles')
+    archivo.write('\nEl costo por todo es: ' + str(round(precio, 2)) + ' soles')
+    archivo.close()
+    return True
+
+continuar_pidiendo = 'si'
 while True:
-    if distrito in Distritos:
+    if continuar_pidiendo.lower() == 'si':
+        flag = Pedir_Pizza_Lima(Pizzerias, Distritos, Surco, Miraflores, San_Isidro, La_Molina, Pizzas, Bebidas, precios_pizza, precios_bebida, numero_pedido)
+        continuar_pidiendo = input('Quiere hacer otro pedido? ')
+        if flag == True:
+            numero_pedido += 1
+    elif continuar_pidiendo.lower() == 'no':
+        print('Gracias por la compra!!!')
         break
     else:
-        print('Lo sentimos, no contamos con información de ese distrito')
-    distrito = input("Ingrese un distrito cercano (Surco, Miraflores, San Isidro, La Molina): ")
-
-#Aqui se elige una pizzeria (Tomando en cuenta el distrito)
-pizzeria = input('Escoge una pizzeria (Pizza Hut, Dominos Pizza, Papa Johns): ')
-while True:
-    if distrito == 'Surco':
-        if pizzeria in Surco:
-            break
-        else:
-            print('Lo sentimos, no existe esa pizzaria en', distrito)
-            pizzeria = input('Escoge otro pizzeria(Pizza Hut, Dominos Pizza, Papa Johns): ')
-    if distrito == 'Miraflores':
-        if pizzeria in Miraflores:
-            break
-        else:
-            print('Lo sentimos, no existe esa pizzaria en', distrito)
-            pizzeria = input('Escoge otro pizzeria(Pizza Hut, Dominos Pizza, Papa Johns): ')
-    if distrito == 'San Isidro':
-        if pizzeria in San_Isidro:
-            break
-        else:
-            print('Lo sentimos, no existe esa pizzaria en', distrito)
-            pizzeria = input('Escoge otro pizzeria(Pizza Hut, Dominos Pizza, Papa Johns): ')
-    if distrito == 'La Molina':
-        if pizzeria in La_Molina:
-            break
-        else:
-            print('Lo sentimos, no existe esa pizzaria en', distrito)
-            pizzeria = input('Escoge otro pizzeria(Pizza Hut, Dominos Pizza, Papa Johns): ')
-
-print('Ahora empezaremos  a armar su orden')
-seguir_pidiendo = 'si'
-#Con este bucle te pide que pizzas quieres y la cantidad de esta, hasta que el usuario ya no quiera ordenar más (Se guarda en un diccionario)
-while seguir_pidiendo.lower() == 'si':
-    pizza = input('Ingrese que pizza quiere (Americana, Hawaiana, Pepperoni): ')
-    if pizza not in Pizzas:
-        print('Lo sentimos, no contamos con esa pizza')
-    else:
-        cantidad = int(input("Ingrese cantidad de pizzas: "))
-        dic_orden[pizza] = cantidad
-    seguir_pidiendo = input('¿Seguir ordenando?: ')
-seguir_pidiendo = 'si'
-
-#Con este bucle te pide que bebida quieres y la cantidad de esta, hasta que el usuario ya no quiera ordenar más (Se guarda en un diccionario)
-while seguir_pidiendo.lower() == 'si':
-    bebida = input('Ingrese que bebida quiere (Coca-Cola, Sprite, Inca Kola): ')
-    if bebida not in Bebidas:
-        print('Lo sentimos, no contamos con esa bebida')
-    else:
-        cantidad = int(input("Ingrese cantidad de bebidas: "))
-        dic_orden[bebida] = cantidad
-    seguir_pidiendo = input('¿Seguir ordenando?: ')
-
-#Con esto separo el diccionario donde esta la orden en dos listas, una con la orden y otra con las cantidades
-orden_pizzas_bebidas = list(dic_orden.keys())
-orden_cantidad = list(dic_orden.values())
-
-#Con esto se imprime tu pedido
-print("Su orden sería:")
-for i, j in dic_orden.items():
-    print(i, ':', j)
-
-# defino variables
-precio = 0
-indice_pizzeria = 0
-indice_distrito = 0
-
-#Con esto saco el indice del distrito
-for i in range(len(Distritos)):
-    if Distritos[i] == distrito:
-        indice_distrito = i
-
-from Funciones import cantidad_orden
-
-#Con esto saco el indice de la pizzeria
-for i in range(len(Pizzerias)):
-    if Pizzerias[i] == pizzeria:
-        indice_pizzeria = i
-
-#Con esto hallo el precio (Multiplico las cantidades por los precios y lo sumo)
-for i in range(len(Precios_pizza)):
-    if i == indice_pizzeria:
-        precio += Precios_pizza[i][0]*cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Americana')
-        precio += Precios_pizza[i][1]*cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Hawaiana')
-        precio += Precios_pizza[i][2]*cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Pepperoni')
-        precio += precios_bebida[i][0]*cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Coca-Cola')
-        precio += precios_bebida[i][1]*cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Sprite')
-        precio += precios_bebida[i][2]*cantidad_orden(orden_pizzas_bebidas, orden_cantidad, 'Inca Kola')
-
-print('El costo por todo sería:', round(precio, 2), 'soles')
-print('Llame al', Numeros_telefonicos[indice_pizzeria][indice_distrito], 'para efectuar su pedido')
+        print('Respuesta no valida')
+        continuar_pidiendo = input('Quiere hacer otro pedido? ')
